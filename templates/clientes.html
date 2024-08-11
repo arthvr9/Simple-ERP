@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Clientes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a90e2, #56c8d8);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        h2 {
+            color: #444;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+            outline: none;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #357ABD;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .btn.delete {
+            background-color: #d9534f;
+            margin-left: 5px;
+        }
+
+        .btn.delete:hover {
+            background-color: #c9302c;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerenciamento de Clientes</h1>
+
+        <h2>Adicionar Novo Cliente</h2>
+        <form action="{{ url_for('clientes.clientes') }}" method="POST">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="contato">Telefone:</label>
+                <input type="text" id="contato" name="contato" required>
+            </div>
+            <div class="form-group">
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" required>
+            </div>
+            <div class="form-group">
+                <label for="identificador">CNPJ/CPF:</label>
+                <input type="text" id="identificador" name="identificador" required>
+            </div>
+            <div class="form-group">
+                <label for="pedidos">Qtde. de pedidos já realizados:</label>
+                <input type="text" id="pedidos" name="pedidos" required>
+            </div>
+            <button type="submit" class="btn" name = "action" value = "criar" >Adicionar Cliente</button>
+        </form>
+
+        <h2>Lista de Clientes</h2>
+        <table>
+            <thead>
+                <button type="submit" class="btn" name = "action" value = "listar" >Listar Clientes</button>
+                <tr>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>CEP</th>
+                    <th>CNPJ/CPF</th>
+                    <th>Pedidos</th>
+                </tr>
+            </thead>
+            <tbody id="client-list">
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.nome }}</td>
+                    <td>{{ cliente.contato }}</td>
+                    <td>{{ cliente.endereco }}</td>
+                    <td>{{ cliente.identificador }}</td>
+                    <td>{{ cliente.pedidos }}</td>
+                    <td>
+                        <a href="{{ url_for('delete_cliente', cliente_id=loop.index0) }}" class="btn delete", name= "action" value = "delete">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

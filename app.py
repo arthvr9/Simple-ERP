@@ -12,9 +12,11 @@ login_manager.init_app(app)
 
 # Certifique-se de que a classe User e o blueprint sejam importados corretamente
 from blueprints.main import main_bp, User
+from blueprints.clientes import clientes_bp
 
 # Registrar o Blueprint na aplicação Flask
 app.register_blueprint(main_bp, url_prefix='/')
+app.register_blueprint(clientes_bp, url_prefix='/clientes')
 
 @login_manager.user_loader
 def load_user(user_id):

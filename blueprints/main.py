@@ -67,10 +67,10 @@ def login():
 
     return render_template('index.html')
 
-@main_bp.route('/success')
+@main_bp.route('/clientes')
 @login_required  # Exige que o usuário esteja logado para acessar a página
 def success():
-    return render_template('formulario.html')
+    return render_template('clientes.html')
 
 @main_bp.route('/failure')
 def failure():
